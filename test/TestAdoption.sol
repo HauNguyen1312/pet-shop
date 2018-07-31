@@ -14,14 +14,14 @@ contract TestAdoption	{
 	Assert.equal(returnedId, expected, "Adoption of pet ID 8 should be recorded");
 	}
 
-	function testGetAdopterAddressByPetid() public	{
+	function testGetAdopterAddressByPetId() public	{
 	address expected = this;
 
 	address adopter = adoption.adopters(8);
 	Assert.equal(adopter, expected, "Owner of pet 8 should be recorded");
 	}
 
-	function testGetAdopterAddressByPetidInArray() public	{
+	function testGetAdopterAddressByPetIdInArray() public	{
 	address expected = this;
 
 	address[16] memory adopters = adoption.getAdopters();

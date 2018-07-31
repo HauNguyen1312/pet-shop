@@ -1,3 +1,5 @@
+console.log("app da ")
+
 App = {
   web3Provider: null,
   contracts: {},
@@ -20,14 +22,16 @@ App = {
       }
     });
 
-    return App.initWeb3();
+    App.initWeb3();
+    App.initContract();
+    App.bindEvents();
   },
 
   initWeb3: function() {
     if (typeof web3 !== 'undefined')  {
       App.web3Provider = web3.currentProvider;
     } else  {
-      App.web3Provider = new Web3.provider.HttpProvider('http:/locahost:7545');
+      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
     }
 
     web3 = new Web3(App.web3Provider);
@@ -40,26 +44,27 @@ App = {
 
       App.contracts.Adoption.setProvider(App.web3Provider);
       return App.markAdopted();
-    })
+    });
 
   },
 
   bindEvents: function() {
+    console.log("123")
     $(document).on('click', '.btn-adopt', App.handleAdopt);
   },
 
   markAdopted: function(adopters, account) {
     var adoptionInstance;
 
-    App.contracts.Adoption.deployed().then(funciton(instance) {
+    App.contracts.Adoption.deployed().then(function(instance) {
       adoptionInstance = instance;
 
       return adoptionInstance.getAdopters.call();
 
-    }).then(funciton(adopters)  {
+    }).then(function(adopters)  {
       for (i=0; i<adopters.length; i++) {
         if(adopters[i] !== '0x0000000000000000000000000000000000000000')  {
-          $('.panel-pet').ep(i).find('button').text('Success').attr('disabled', true);
+          $('.panel-pet').eq(i).find('button').text('Success').attr('disabled', true);
         }
       }
     }).catch(function(err)  {
